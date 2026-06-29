@@ -15,7 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+
+            $table->string('phone')->nullable();
+
             $table->timestamp('email_verified_at')->nullable();
+
             $table->string('password');
 
             $table->enum('role', [
@@ -23,6 +27,8 @@ return new class extends Migration
                 'doctor',
                 'receptionist'
             ])->default('receptionist');
+
+            $table->boolean('status')->default(true);
 
             $table->rememberToken();
             $table->timestamps();
