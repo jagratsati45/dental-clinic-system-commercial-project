@@ -1,29 +1,45 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth'])->group(function () {
+// Admin Routes
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
-    Route::view('/admin/dashboard', 'admin.dashboard')
-        ->middleware('role:admin');
+    Route::view('/dashboard', 'admin.dashboard')
+        ->name('admin.dashboard');
 
-    Route::view('/doctor/dashboard', 'doctor.dashboard')
-        ->middleware('role:doctor');
-
-    Route::view('/receptionist/dashboard', 'receptionist.dashboard')
-        ->middleware('role:receptionist');
+    Route::resource('patients', PatientController::class);
+    Route::resource('users', UserController::class)->names('admin.users');
+    
 });
 
+// Doctor Routes
+Route::middleware(['auth', 'role:doctor'])->group(function () {
+
+    Route::view('/doctor/dashboard', 'doctor.dashboard')
+        ->name('doctor.dashboard');
+});
+
+// Receptionist Routes
+Route::middleware(['auth', 'role:receptionist'])->group(function () {
+
+    Route::view('/receptionist/dashboard', 'receptionist.dashboard')
+        ->name('receptionist.dashboard');
+});
+
+// Default redirect after login
 Route::get('/dashboard', function () {
     return redirect('/admin/dashboard');
 })->middleware('auth')->name('dashboard');
 
-
+// Profile Routes
 Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'edit'])
@@ -36,4 +52,4 @@ Route::middleware('auth')->group(function () {
         ->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
