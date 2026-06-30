@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PatientController;
@@ -16,6 +17,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         ->name('admin.dashboard');
 
     Route::resource('patients', PatientController::class);
+    Route::resource('appointments', AppointmentController::class);
     Route::resource('users', UserController::class)->names('admin.users');
     
 });

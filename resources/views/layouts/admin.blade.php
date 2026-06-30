@@ -15,11 +15,11 @@
 
 <body class="bg-gray-100">
 
-    <div class="flex h-screen">
+    <div class="flex min-h-screen">
 
         <!-- Sidebar -->
 
-        <aside class="w-64 bg-blue-900 text-white">
+        <aside class="w-64 bg-blue-900 text-white min-h-screen">
 
             <div class="text-2xl font-bold p-6 border-b border-blue-700">
 
@@ -44,8 +44,8 @@
                     Patients
                 </a>
 
-                <a href="#"
-                    class="block px-6 py-3 hover:bg-blue-700">
+                <a href="{{ route('appointments.index') }}"
+                    class="block px-6 py-3 {{ request()->routeIs('appointments.*') ? 'bg-blue-700' : 'hover:bg-blue-700' }}">
                     Appointments
                 </a>
 
@@ -70,7 +70,7 @@
 
         <!-- Main -->
 
-        <div class="flex-1">
+        <div class="flex-1 flex flex-col">
 
             <!-- Topbar -->
 
@@ -107,7 +107,7 @@
 
             </header>
 
-            <main class="p-8">
+            <main class="flex-1 p-8">
 
                 @yield('content')
 

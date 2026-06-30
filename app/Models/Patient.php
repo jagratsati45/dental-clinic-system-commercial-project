@@ -4,8 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
+
 class Patient extends Model
 {
+    
     protected $fillable = [
         'patient_id',
         'full_name',
@@ -18,7 +21,11 @@ class Patient extends Model
         'allergies',
         'medical_history',
         'emergency_contact',
-        'emergency_phone',
         'status',
     ];
+
+    public function appointments()
+{
+    return $this->hasMany(Appointment::class);
+}
 }
